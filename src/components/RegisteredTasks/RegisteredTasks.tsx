@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Task, { ITask } from "../Task/Task";
+import RegisteredTask, { ITask } from "../RegisteredTask/RegisteredTask";
 
 const StyledRegisteredTasks = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const StyledRegisteredTasks = styled.div`
 
 interface IRegisteredTasks {
   tasks: ITask[];
-  update: (title: string, status: boolean) => void;
+  update: (title: string, description: string, status: boolean) => void;
 }
 
 const RegisteredTasks: React.FC<IRegisteredTasks> = ({ tasks, update }) => {
@@ -25,9 +25,10 @@ const RegisteredTasks: React.FC<IRegisteredTasks> = ({ tasks, update }) => {
     <StyledRegisteredTasks>
       {tasks.map((task) => {
         return (
-          <Task
+          <RegisteredTask
             key={task.title}
             title={task.title}
+            description={task.description}
             status={task.status}
             updateStatus={update}
           />

@@ -5,13 +5,14 @@ import Head from "next/head";
 import Header from "components/Header/Header";
 import TaskInput from "components/TaskInput/TaskInput";
 import RegisteredTasks from "components/RegisteredTasks/RegisteredTasks";
-import { ITask } from "components/Task/Task";
+import { ITask } from "components/RegisteredTask/RegisteredTask";
 
 const Home: NextPage = () => {
   const [tasks, setTasks] = useState<ITask[]>([]);
 
   const handleTask = (
     title: string,
+    description: string,
     status: boolean,
     deleting: boolean = false
   ) => {
@@ -32,7 +33,10 @@ const Home: NextPage = () => {
       return;
     }
 
-    setTasks([...tasks, { title: title, status: status }]);
+    setTasks([
+      ...tasks,
+      { title: title, description: description, status: status },
+    ]);
   };
 
   return (
@@ -47,7 +51,7 @@ const Home: NextPage = () => {
       <TaskInput register={handleTask} />
       <RegisteredTasks tasks={tasks} update={handleTask} />
 
-      <footer>Giovani Anhesini - 11/17/2021</footer>
+      <footer>Grupo - Giovani, Daniel, Enrico</footer>
     </div>
   );
 };

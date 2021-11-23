@@ -1,60 +1,70 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { ITask } from "../Task/Task";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
-const StyledTaskInput = styled.div`
+const StyledInputs = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  & > :not(:first-child) {
+    margin-top: 1rem;
+  }
+`;
+
+const StyledTaskInput = styled.form`
   display: flex;
   align-items: center;
   justify-content: center;
   height: 10rem;
   width: 100%;
-  padding: 0 2rem;
-
-  * {
-    border-radius: 1rem;
-    border: none;
-  }
-
-  input {
-    padding: 1rem;
-    height: 3rem;
-    font-size: xx-large;
-    text-transform: capitalize;
-  }
 
   button {
     margin-left: 1rem;
-    height: 3rem;
     width: 5rem;
-    font-size: large;
   }
 `;
 
 interface ITaskInput {
-  register: (title: string, status: boolean) => void;
+  register: (title: string, description: string, status: boolean) => void;
 }
 
 const TaskInput: React.FC<ITaskInput> = ({ register }) => {
-  const [text, setText] = useState<string>("");
+  const [taskTitle, setTaskTitle] = useState<string>("");
+  const [taskDescription, setTaskDescription] = useState<string>("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let text = e.target.value;
-    let capitalizedText = text.charAt(0).toUpperCase() + text.slice(1);
-    setText(capitalizedText);
+  const isSubmitDisabled = taskTitle === "" || taskDescription === "";
+
+  const capitalizeText = (text: String) => {
+    return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
-  const handleRegister = () => {
-    const input = document.getElementById("taskInput") as HTMLInputElement;
-    input.value = "";
-    input.focus();
-    register(text, false);
-    setText("");
+  const handleRegister = (e: any) => {
+    const form = document.getElementById("taskForm") as HTMLFormElement;
+    form.reset();
+    register(capitalizeText(taskTitle), capitalizeText(taskDescription), false);
+    setTaskTitle("");
+    setTaskDescription("");
+    e.preventDefault();
   };
 
   return (
-    <StyledTaskInput>
-      <input id="taskInput" onChange={handleChange}></input>
-      <button onClick={() => handleRegister()}>Add Task</button>
+    <StyledTaskInput id="taskForm" onSubmit={(e: any) => handleRegister(e)}>
+      <StyledInputs>
+        <TextField
+          id="taskTitle"
+          placeholder="Task title"
+          onChange={(e) => setTaskTitle(e.target.value)}
+        />
+        <TextField
+          id="taskDescription"
+          placeholder="Task description"
+          onChange={(e) => setTaskDescription(e.target.value)}
+        />
+      </StyledInputs>
+      <Button disabled={isSubmitDisabled} type="submit">
+        Add Task
+      </Button>
     </StyledTaskInput>
   );
 };

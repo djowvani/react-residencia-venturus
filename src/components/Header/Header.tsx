@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import Image from "next/image";
+import Router from "next/router";
 
 import Profile from "components/Profile/Profile";
+
+import { headerColor, fullWhite } from "styles/_variables";
 
 const StyledHeader = styled.div`
   display: flex;
@@ -10,22 +13,23 @@ const StyledHeader = styled.div`
   width: 100%;
   justify-content: space-between;
   padding: 0 3rem;
-  background: #32a1ab;
+  background: ${headerColor};
 
   h2 {
     margin-left: 1rem;
-    color: #ffffff;
+    color: ${fullWhite};
   }
 `;
 
 const StyledLogo = styled.div`
   display: flex;
+  cursor: pointer;
 `;
 
 const Header = () => {
   return (
     <StyledHeader>
-      <StyledLogo>
+      <StyledLogo onClick={() => Router.push("/")}>
         <Image src="/todo.png" height={70} width={70} />
         <h2>ToDo App</h2>
       </StyledLogo>
