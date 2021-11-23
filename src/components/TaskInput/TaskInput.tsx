@@ -32,6 +32,7 @@ interface ITaskInput {
 const TaskInput: React.FC<ITaskInput> = ({ register }) => {
   const [taskTitle, setTaskTitle] = useState<string>("");
   const [taskDescription, setTaskDescription] = useState<string>("");
+  const [titleError, setTitleError] = useState<boolean>(false);
 
   const isSubmitDisabled = taskTitle === "" || taskDescription === "";
 
@@ -41,10 +42,19 @@ const TaskInput: React.FC<ITaskInput> = ({ register }) => {
 
   const handleRegister = (e: any) => {
     const form = document.getElementById("taskForm") as HTMLFormElement;
-    form.reset();
-    register(capitalizeText(taskTitle), capitalizeText(taskDescription), false);
-    setTaskTitle("");
-    setTaskDescription("");
+    if (taskTitle === "run") {
+      setTitleError(true);
+      form.reset();
+    } else {
+      form.reset();
+      register(
+        capitalizeText(taskTitle),
+        capitalizeText(taskDescription),
+        false
+      );
+      setTaskTitle("");
+      setTaskDescription("");
+    }
     e.preventDefault();
   };
 
@@ -55,6 +65,7 @@ const TaskInput: React.FC<ITaskInput> = ({ register }) => {
           id="taskTitle"
           placeholder="Task title"
           onChange={(e) => setTaskTitle(e.target.value)}
+          helperText={titleError && "You can't run."}
         />
         <TextField
           id="taskDescription"

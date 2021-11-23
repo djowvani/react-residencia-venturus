@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
+    "@types/styled-components": "^5.1.15",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "babel-plugin-styled-components": "^1.13.3",
     "components": "link:./src/components",

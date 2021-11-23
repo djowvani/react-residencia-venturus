@@ -40,7 +40,12 @@ interface ITaskComponent {
   title: string;
   description: string;
   status: boolean;
-  updateStatus: (title: string, status: boolean, deleting?: boolean) => void;
+  updateStatus: (
+    title: string,
+    description: string,
+    status: boolean,
+    deleting?: boolean
+  ) => void;
 }
 
 const RegisteredTask: React.FC<ITaskComponent> = ({
@@ -65,7 +70,7 @@ const RegisteredTask: React.FC<ITaskComponent> = ({
           src={`/${experiencesMap.get(status)}.png`}
           width={40}
           height={40}
-          onClick={() => updateStatus(title, !status)}
+          onClick={() => updateStatus(title, description, !status)}
         />
       </StyledTaskContent>
       <StyledTaskActions>
@@ -76,7 +81,7 @@ const RegisteredTask: React.FC<ITaskComponent> = ({
           height={40}
         />
         <Image
-          onClick={() => updateStatus(title, status, true)}
+          onClick={() => updateStatus(title, description, status, true)}
           src={"/delete.png"}
           width={40}
           height={40}
